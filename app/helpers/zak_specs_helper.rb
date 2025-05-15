@@ -1,0 +1,2 @@
+module ZakSpecsHelper
+end

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @zak_spec %>
+
+<div>
+  <%= link_to "Edit this zak spec", edit_zak_spec_path(@zak_spec) %> |
+  <%= link_to "Back to zak specs", zak_specs_path %>
+
+  <%= button_to "Destroy this zak spec", @zak_spec, method: :delete %>
+</div>

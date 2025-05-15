@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_09_161610) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_15_173842) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,7 +37,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_09_161610) do
     t.integer "srok_arendy"
     t.decimal "stoimost_zak"
     t.string "dok_vypoln_zak_path"
-    t.string "string"
     t.string "chek_opl_zak_path"
     t.boolean "status"
     t.boolean "s_delete"
@@ -85,6 +84,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_09_161610) do
     t.string "status_spec"
     t.boolean "status"
     t.boolean "s_delete"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "zak_specs", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

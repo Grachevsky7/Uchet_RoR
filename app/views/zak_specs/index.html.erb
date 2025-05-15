@@ -1,0 +1,34 @@
+<h1>Заказы по специалисту</h1>
+
+  <%= form_with url: zak_specs_path, method: :get do |form| %>
+    <%= form.label :specialist_id, "Специалист" %>
+    <%= form.select :specialist_id, Specialist.all.collect { |s| [s.name, s.id] }, include_blank: true %>
+    <%= form.label :start_date, "Дата начала" %>
+    <%= form.date_field :start_date %>
+    <%= form.label :end_date, "Дата окончания" %>
+    <%= form.date_field :end_date %>
+    <%= form.submit "Сгенерировать отчет" %>
+  <% end %>
+
+  <% if @orders %>
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>ID заказа</th>
+          <th>Клиент</th>
+          <th>Дата</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @orders.each do |order| %>
+          <tr>
+            <td><%= order.id %></td>
+            <td><%= order.client.name %></td>
+            <td><%= order.completed_at %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>Заказы для выбранного специалиста и диапазона дат не найдены.</p>
+  <% end %>

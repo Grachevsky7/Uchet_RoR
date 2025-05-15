@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+
+  get '/zak_specs', to: 'zak_specs#index'
+  resources :zak_specs
+
   get 'kl_obsh_sum_zak/index'
   get 'obsh_summa_zak/index'
   get 'po_max_dohod/index'
