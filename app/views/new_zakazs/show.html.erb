@@ -1,0 +1,61 @@
+<p style="color: green"><%= notice %></p>
+
+<p>
+  <strong>ID ПО:</strong>
+  <%= @new_zakaz.po_id %>
+</p>
+<p>
+  <strong>ID Клиента:</strong>
+  <%= @new_zakaz.klient_id %>
+</p>
+<p>
+<p>
+  <strong>ID Специалиста:</strong>
+  <%= @new_zakaz.specialist_id %>
+</p>
+  <strong>Дата заказа:</strong>
+  <%= @new_zakaz.data_zak %>
+</p>
+<p>
+  <strong>Статус заказа:</strong>
+  <%= @new_zakaz.stat_zak %>
+</p>
+
+<p>
+  <strong>Дата выполнения заказа:</strong>
+  <%= @new_zakaz.data_vypoln_zak %>
+</p>
+<p>
+  <strong>Стоимость в год, ₽:</strong>
+  <%= @new_zakaz.stoimost_v_god %>
+</p>
+<p>
+  <strong>Срок аренды, в годах:</strong>
+  <%= @new_zakaz.srok_arendy %>
+</p>
+<p>
+  <strong>Стоимость заказа, ₽:</strong>
+  <%= @new_zakaz.stoimost_zak %>
+</p>
+<p>
+  <strong>Документ о выполнении заказа:</strong>
+  <%= @new_zakaz.dok_vypoln_zak_path %>
+</p>
+<p>
+  <strong>Чек оплаты заказа:</strong>
+  <%= @new_zakaz.chek_opl_zak_path %>
+</p>
+<p>
+  <strong>Status:</strong>
+  <%= @new_zakaz.status ? 'true' : 'false' %>
+</p>
+<p>
+  <strong>S_delete:</strong>
+  <%= @new_zakaz.s_delete ? 'true' : 'false' %>
+</p>
+
+<div class="buttons-container">
+  <%= link_to "Редактировать данные заказа", edit_new_zakaz_path(@new_zakaz), class: "button-style" %>
+  <%= button_to "Удалить данные заказа", @new_zakaz, method: :delete, data: { confirm: "Вы уверены?" }, class: "button-style" %>
+  <%= link_to "Назад к списку заказов", new_zakazs_path, class: "button-style" %>
+</div>

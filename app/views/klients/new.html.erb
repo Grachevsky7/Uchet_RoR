@@ -1,0 +1,56 @@
+<h1>Добавление нового клиента</h1>
+
+<%= form_with(model: @klient, local: true) do |form| %>
+  
+  <% if @klient.errors.any? %>
+    <div style="color: red">
+      <h2>Ошибки при сохранении клиента:</h2>
+      <ul>
+        <% @klient.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name_komp, "Название компании" %>
+    <%= form.text_field :name_komp, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :kontakt_lico, "Контактное лицо" %>
+    <%= form.text_field :kontakt_lico, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :telef_kl, "Телефон" %>
+    <%= form.text_field :telef_kl, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :pochta_kl, "Email" %>
+    <%= form.text_field :pochta_kl, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :adres_kl, "Адрес" %>
+    <%= form.text_field :adres_kl, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :status, "Status" %>
+    <%= form.check_box :status, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :s_delete, "S_delete" %>
+    <%= form.check_box :s_delete, class: "form-control" %>
+  </div>
+
+  <div class="buttons-container" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+    <%= form.submit "Добавить клиента", class: "button-style create-button" %>
+    <%= link_to "Назад к списку клиентов", klients_path, class: "button-style" %>
+  </div>
+
+<% end %>

@@ -1,0 +1,38 @@
+<p style="color: green"><%= notice %></p>
+
+<p>
+  <strong>Компания:</strong>
+  <%= @klient.name_komp %>
+</p>
+<p>
+  <strong>Контактное лицо:</strong>
+  <%= @klient.kontakt_lico %>
+</p>
+<p>
+  <strong>Телефон:</strong>
+  <%= @klient.telef_kl %>
+</p>
+<p>
+  <strong>Email:</strong>
+  <%= @klient.pochta_kl %>
+</p>
+<p>
+  <strong>Адрес:</strong>
+  <%= @klient.adres_kl %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @klient.status ? 'true' : 'false' %>
+</p>
+<p>
+  <strong>S_delete:</strong>
+  <%= @klient.s_delete ? 'true' : 'false' %>
+</p>
+
+
+<div class="buttons-container">
+  <%= link_to "Редактировать данные клиента", edit_klient_path(@klient), class: "button-style" %>
+  <%= button_to "Удалить данные клиента", @klient, method: :delete, data: { confirm: "Вы уверены?" }, class: "button-style" %>
+  <%= link_to "Назад к списку клиентов", klients_path, class: "button-style" %>
+</div>

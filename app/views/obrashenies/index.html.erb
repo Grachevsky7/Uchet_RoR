@@ -1,0 +1,104 @@
+<h1>Список обращений в организацию</h1>
+
+<!-- Фильтры -->
+<div class="filters-container" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+  
+  <!-- Форма поиска -->
+  <%= form_with url: obrashenies_path, method: :get, local: true do %>
+    <div class="search-container" style="display: flex; gap: 10px; flex-wrap: nowrap; align-items: center;">
+      <input type="text" name="search_po_id" placeholder="Поиск по ID ПО" value="<%= params[:search_po_id] %>" class="search-input" />
+      <input type="text" name="search_klient_id" placeholder="Поиск по ID клиента" value="<%= params[:search_klient_id] %>" class="search-input" />
+      <input type="text" name="search_specialist_id" placeholder="Поиск по ID специалиста" value="<%= params[:search_specialist_id] %>" class="search-input", style="width: 270px;" />
+      <input type="text" name="search_data_obr" placeholder="Поиск по дате обращения" value="<%= params[:search_data_obr] %>" class="search-input", style="width: 270px;" />
+      <input type="text" name="search_tema_obr" placeholder="Поиск по теме обращения" value="<%= params[:search_tema_obr] %>" class="search-input", style="width: 270px;" />
+      <input type="text" name="search_status_obr" placeholder="Поиск по статусу" value="<%= params[:search_status_obr] %>" class="search-input" />
+      <input type="text" name="search_data_vypoln_obr" placeholder="Поиск по дате выполнения" value="<%= params[:search_data_vypoln_obr] %>" class="search-input", style="width: 1900px;" />
+      <%= submit_tag "Поиск", class: "button-style" %>
+      <%= link_to 'Сбросить', obrashenies_path, class: 'button-style reset-button' %>
+    </div>
+  <% end %>
+
+  <!-- Форма сортировки -->
+  <%= form_with url: obrashenies_path, method: :get, local: true do %>
+    <div class="sort-container" style="margin-top: 10px; display: flex; gap: 10px; align-items: center;">
+      <label for="sort_by">Сортировать по:</label>
+      <%= select_tag :sort_by, options_for_select([
+        ['ID', 'id'],
+        ['ID ПО', 'po_id'],
+        ['ID клиента', 'klient_id'],
+        ['ID специалиста', 'specialist_id'],
+        ['Дата обращения', 'data_obr'],
+        ['Тема обращения', 'tema_obr'],
+        ['Статус', 'status_obr'],
+        ['Дата выполнения', 'data_vypoln_obr'],
+        ['Документ о выполнении обращения', 'dok_vypoln_obr_path']
+      ], selected: params[:sort_by]), class: "search-input" %>
+      
+      <label for="sort_order">Направление:</label>
+      <%= select_tag :sort_order, options_for_select([
+        ['По возрастанию', 'asc'],
+        ['По убыванию', 'desc']
+      ], selected: params[:sort_order]), class: "search-input" %>
+
+      <%= submit_tag "Применить сортировку", class: "button-style" %>
+    </div>
+  <% end %>
+</div>
+
+<!-- Таблица обращений -->
+<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse;">
+  <thead>
+    <tr style="background-color: #f2f2f2;">
+      <th>ID</th>
+      <th>ID ПО</th>
+      <th>ID Клиента</th>
+      <th>ID Специалиста</th>
+      <th>Дата обращения</th>
+      <th>Тема обращения</th>
+      <th>Статус обращения</th>
+      <th>Дата выполнения обращения</th>
+      <th>Документ о выполнении обращения</th>
+      <th>Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @obrashenies.each do |obrashenie| %>
+      <tr>
+        <td><%= obrashenie.id %></td>
+        <td><%= obrashenie.po_id %></td>
+        <td><%= obrashenie.klient_id %></td>
+        <td><%= obrashenie.specialist_id %></td>
+        <td><%= obrashenie.data_obr %></td>
+        <td><%= obrashenie.tema_obr %></td>
+        <td><%= obrashenie.status_obr %></td>
+        <td><%= obrashenie.data_vypoln_obr %></td>
+        <td><%= obrashenie.dok_vypoln_obr_path %></td>
+        <td>
+          <div style="display: inline-flex; align-items: center; gap: 2px;">
+            <%= link_to 'Показать', obrashenie, style: "margin-right: 5px;" %>
+            <%= link_to 'Редактировать', edit_obrasheny_path(obrashenie), style: "margin-right: 5px;" %>
+            <%= button_to "Удалить", obrashenie, method: :delete, data: { confirm: "Вы уверены?" }, class: "delete-button" %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<!-- Flash сообщение -->
+<% if flash[:notice] %>
+  <p id="flash-message" style="color: green;"><%= flash[:notice] %></p>
+  
+  <script>
+    setTimeout(function() {
+      document.getElementById('flash-message').style.display = 'none';
+    }, 3000);
+  </script>
+<% end %>
+
+
+<!-- Кнопки -->
+<div style="margin-bottom: 20px;">
+  <%= link_to 'Добавить обращение', new_obrasheny_path, style: "display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;" %>
+  <%= link_to 'Назад', root_path, style: "display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;" %>
+</div>

@@ -1,0 +1,51 @@
+<h1>Добавление нового ПО</h1>
+
+<%= form_with(model: @po, local: true) do |form| %>
+  
+  <% if @po.errors.any? %>
+    <div style="color: red">
+      <h2>Ошибки при сохранении ПО:</h2>
+      <ul>
+        <% @po.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name_po, "Название ПО" %>
+    <%= form.text_field :name_po, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :vers_po, "Версия ПО" %>
+    <%= form.text_field :vers_po, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :data_vypuska_po, "Дата выпуска ПО" %>
+    <%= form.date_field :data_vypuska_po, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :stoimost_v_god_po, "Стоимость в год, ₽" %>
+    <%= form.text_field :stoimost_v_god_po, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :status, "Status" %>
+    <%= form.check_box :status, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :s_delete, "S_delete" %>
+    <%= form.check_box :s_delete, class: "form-control" %>
+  </div>
+
+  <div class="buttons-container" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+    <%= form.submit "Добавить ПО", class: "button-style create-button" %>
+    <%= link_to "Назад к списку ПО", pos_path, class: "button-style" %>
+  </div>
+
+<% end %>

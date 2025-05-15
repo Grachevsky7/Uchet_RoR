@@ -1,0 +1,36 @@
+<p style="color: green"><%= notice %></p>
+
+<p>
+  <strong>ФИО:</strong>
+  <%= @specialist.fio_spec %>
+</p>
+<p>
+  <strong>Телефон:</strong>
+  <%= @specialist.telef_spec %>
+</p>
+<p>
+  <strong>Email:</strong>
+  <%= @specialist.pochta_spec %>
+</p>
+<p>
+  <strong>Должность:</strong>
+  <%= @specialist.dlzhnst_spec %>
+</p>
+<p>
+  <strong>Статус:</strong>
+  <%= @specialist.status_spec %>
+</p>
+<p>
+  <strong>Status:</strong>
+  <%= @specialist.status ? 'true' : 'false' %>
+</p>
+<p>
+  <strong>S_delete:</strong>
+  <%= @specialist.s_delete ? 'true' : 'false' %>
+</p>
+
+<div class="buttons-container">
+  <%= link_to "Редактировать данные специалиста", edit_specialist_path(@specialist), class: "button-style" %>
+  <%= button_to "Удалить данные специалиста", @specialist, method: :delete, data: { confirm: "Вы уверены?" }, class: "button-style" %>
+  <%= link_to "Назад к списку специалистов", specialists_path, class: "button-style" %>
+</div>

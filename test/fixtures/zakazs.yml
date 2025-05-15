@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  po: one
+  klient: one
+  data_zak: 2024-11-02
+  stat_zak: MyString
+  specialist: one
+  data_vypoln_zak: 2024-11-02
+  stoimost_zak: 9.99
+  dok_vypoln_zak_path: MyString
+  chek_opl_zak_path: MyString
+  status: false
+  s_delete: false
+
+two:
+  po: two
+  klient: two
+  data_zak: 2024-11-02
+  stat_zak: MyString
+  specialist: two
+  data_vypoln_zak: 2024-11-02
+  stoimost_zak: 9.99
+  dok_vypoln_zak_path: MyString
+  chek_opl_zak_path: MyString
+  status: false
+  s_delete: false

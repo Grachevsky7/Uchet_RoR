@@ -1,0 +1,8 @@
+<h1>Редактирование данных заказа</h1>
+
+<%= render "form", new_zakaz: @new_zakaz %>
+
+<div class="buttons-container" style="margin-top: 10px;">
+  <%= link_to "Показать данные заказа", @new_zakaz, class: "button-style", style: "margin-bottom: 5px;" %>
+  <%= link_to "Назад к списку заказов", new_zakazs_path, class: "button-style" %>
+</div>

@@ -1,0 +1,54 @@
+<%= form_with(model: po) do |form| %>
+  <% if po.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(po.errors.count, "error") %> prohibited this po from being saved:</h2>
+
+      <ul>
+        <% po.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :"Название ПО", style: "display: block" %>
+    <%= form.text_field :name_po %>
+  </div>
+
+  <div>
+    <%= form.label :"Версия ПО", style: "display: block" %>
+    <%= form.text_field :vers_po %>
+  </div>
+
+  <div>
+    <%= form.label :"Дата выпуска ПО", style: "display: block" %>
+    <%= form.date_field :data_vypuska_po %>
+  </div>
+
+  <div>
+    <%= form.label :"Стоимость в год, ₽", style: "display: block" %>
+    <%= form.text_field :stoimost_v_god_po %>
+  </div>
+
+  <div>
+    <%= form.label :status, style: "display: block" %>
+    <%= form.check_box :status %>
+  </div>
+
+  <div>
+    <%= form.label :s_delete, "S_delete", style: "display: block" %>
+    <%= form.check_box :s_delete %>
+  </div>
+
+<div class="buttons-container" style="margin-top: 20px;">
+ <% if @po.persisted? %>
+    <%= form.submit "Обновить данные о ПО", class: "button-style update-button", style: "margin-bottom: 5px;" %>
+  <% end %>
+
+</div>
+
+
+
+
+<% end %>

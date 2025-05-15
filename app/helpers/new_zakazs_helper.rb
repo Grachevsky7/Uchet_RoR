@@ -1,0 +1,2 @@
+module NewZakazsHelper
+end

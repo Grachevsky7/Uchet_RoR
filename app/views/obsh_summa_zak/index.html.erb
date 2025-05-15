@@ -1,0 +1,53 @@
+<h1>Отчет об общей сумме заказов за период</h1>
+
+<%= form_with url: obsh_summa_zak_index_path, method: :get, local: true do %>
+  <div class="form-group">
+    <label for="start_date">Дата начала:</label>
+    <%= date_field_tag :start_date, params[:start_date] %>
+  </div>
+  <div class="form-group">
+    <label for="end_date">Дата окончания:</label>
+    <%= date_field_tag :end_date, params[:end_date] %>
+  </div>
+
+  <% if @zakazs.any? %>
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse;">
+      <thead>
+        <tr style="background-color: #f2f2f2;">
+          <th>ID заказа</th>
+          <th>Наименование ПО</th>
+          <th>Версия ПО</th>
+          <th>ID клиента</th>
+          <th>Компания клиента</th>
+          <th>Стоимость заказа</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @zakazs.each do |zakaz| %>
+          <tr>
+            <td><%= zakaz.id %></td>
+            <td><%= zakaz.name_po %></td>
+            <td><%= zakaz.vers_po %></td>
+            <td><%= zakaz.klient_id %></td>
+            <td><%= zakaz.name_komp %></td>
+            <td><%= number_to_currency(zakaz.stoimost_zak, unit: '', separator: ',', delimiter: ' ') %>₽</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div style="margin-bottom: 20px;"></div>
+    <p><strong>Общая сумма: <%= number_to_currency(@total_sum, unit: '', separator: ',', delimiter: ' ') %>₽</strong></p>
+  <% else %>
+    <p class="section-title">Заказы за выбранный период отсутствуют.</p>
+  <% end %>
+
+  <div class="buttons-container">
+    <%= button_tag 'Показать', type: 'submit', class: "button-style", style: "margin-bottom: 0px;" %>
+    <%= link_to 'Сбросить', obsh_summa_zak_index_path, class: "button-style" %>
+    <% if @zakazs.any? %>
+      <%= link_to 'Экспорт в Excel', export_to_excel_obsh_summa_zak_path(start_date: params[:start_date], end_date: params[:end_date]), class: "button-style" %>
+      <%= link_to 'Экспорт в Word', export_to_word_obsh_summa_zak_path(start_date: params[:start_date], end_date: params[:end_date]), class: "button-style" %>
+    <% end %>
+    <%= link_to 'Назад', root_path, class: "button-style" %>
+  </div>
+<% end %>

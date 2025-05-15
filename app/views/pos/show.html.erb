@@ -1,0 +1,33 @@
+<p style="color: green"><%= notice %></p>
+
+<p>
+  <strong>Название ПО:</strong>
+  <%= @po.name_po %>
+</p>
+<p>
+  <strong>Версия ПО:</strong>
+  <%= @po.vers_po %>
+</p>
+<p>
+  <strong>Дата выпуска ПО:</strong>
+  <%= @po.data_vypuska_po %>
+</p>
+<p>
+  <strong>Стоимость в год, ₽:</strong>
+  <%= @po.stoimost_v_god_po %>
+</p>
+<p>
+<p>
+  <strong>Status:</strong>
+  <%= @po.status ? 'true' : 'false' %>
+</p>
+<p>
+  <strong>S_delete:</strong>
+  <%= @po.s_delete ? 'true' : 'false' %>
+</p>
+
+<div class="buttons-container">
+  <%= link_to "Редактировать ПО", edit_po_path(@po), class: "button-style" %>
+  <%= button_to "Удалить ПО", @po, method: :delete, class: "button-style" %>
+  <%= link_to "Назад к списку ПО", pos_path, class: "button-style" %>
+</div>

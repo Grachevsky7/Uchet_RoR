@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  po: one
+  klient: one
+  tema_obr: MyString
+  data_obr: 2024-11-02
+  status_obr: MyString
+  specialist: one
+  data_vypoln_obr: 2024-11-02
+  dok_vypoln_obr_path: MyString
+  status: false
+  s_delete: false
+
+two:
+  po: two
+  klient: two
+  tema_obr: MyString
+  data_obr: 2024-11-02
+  status_obr: MyString
+  specialist: two
+  data_vypoln_obr: 2024-11-02
+  dok_vypoln_obr_path: MyString
+  status: false
+  s_delete: false

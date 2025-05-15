@@ -1,0 +1,44 @@
+<h1>Отчет о ПО с максимальным доходом за период</h1>
+
+<%= form_with url: po_max_dohod_index_path, method: :get, local: true do %>
+  <div class="form-group">
+    <label for="start_date">Дата начала:</label>
+    <%= date_field_tag :start_date, params[:start_date] %>
+  </div>
+  <div class="form-group">
+    <label for="end_date">Дата окончания:</label>
+    <%= date_field_tag :end_date, params[:end_date] %>
+  </div>
+
+  <% if @max_income_pos.present? %>
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse;">
+      <thead>
+        <tr style="background-color: #f2f2f2;">
+          <th>ПО</th>
+          <th>Общий доход</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @max_income_pos.each do |record| %>
+          <tr>
+            <td><%= record.name_po %></td>
+            <td><%= number_to_currency(record.total_income, unit: '', separator: ',', delimiter: ' ') %>₽</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div style="margin-bottom: 20px;"></div> <!-- Отступ после таблицы -->
+  <% else %>
+    <p class="section-title">Нет данных для выбранного периода.</p>
+  <% end %>
+
+  <div class="buttons-container">
+    <%= button_tag 'Показать', type: 'submit', class: "button-style", style: "margin-bottom: 0px;" %>
+    <%= link_to 'Сбросить', po_max_dohod_index_path, class: "button-style" %>
+    <% if @max_income_pos.present? %>
+      <%= link_to 'Экспорт в Excel', export_to_excel_po_max_dohod_path(start_date: params[:start_date], end_date: params[:end_date]), class: "button-style" %>
+      <%= link_to 'Экспорт в Word', export_to_word_po_max_dohod_path(start_date: params[:start_date], end_date: params[:end_date]), class: "button-style" %>
+    <% end %>
+    <%= link_to 'Назад', root_path, class: "button-style" %>
+  </div>
+<% end %>

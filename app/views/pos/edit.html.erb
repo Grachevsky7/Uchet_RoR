@@ -1,0 +1,8 @@
+<h1>Редактирование ПО</h1>
+
+<%= render "form", po: @po %>
+
+<div class="buttons-container" style="margin-top: 10px;">
+  <%= link_to "Показать ПО", @po, class: "button-style", style: "margin-bottom: 5px;" %>
+  <%= link_to "Назад к списку ПО", pos_path, class: "button-style" %>
+</div>

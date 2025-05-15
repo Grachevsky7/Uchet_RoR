@@ -1,0 +1,67 @@
+<%= form_with(model: @obrashenie, local: true) do |form| %>
+  <div>
+    <%= form.label :po_id, "ID ПО", style: "display: block; margin-bottom: 5px;" %>
+    <%= form.text_field :po_id, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :klient_id, "ID Клиента", style: "display: block; margin-bottom: 5px;" %>
+    <%= form.text_field :klient_id, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :specialist_id, "ID Специалиста", style: "display: block; margin-bottom: 5px;" %>
+    <%= form.text_field :specialist_id, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :data_obr, "Дата обращения", style: "display: block; margin-bottom: 5px;" %>
+    <%= form.date_field :data_obr, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :tema_obr, "Тема обращения", style: "display: block; margin-bottom: 5px;" %>
+    <%= form.text_field :tema_obr, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :status_obr, "Статус обращения", style: "display: block; margin-bottom: 5px;" %>
+    <%= form.text_field :status_obr, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :data_vypoln_obr, "Дата выполнения", style: "display: block; margin-bottom: 5px;" %>
+    <%= form.date_field :data_vypoln_obr, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :dok_vypoln_obr_path, "Документ о выполнении обращения", style: "display: block; margin-bottom: 5px;" %>
+    <%= form.text_field :dok_vypoln_obr_path, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :status, "Status", style: "display: block; margin-bottom: 5px;" %>
+    <%= form.check_box :status %>
+  </div>
+
+  <div>
+    <%= form.label :s_delete, "S_delete", style: "display: block; margin-bottom: 5px;" %>
+    <%= form.check_box :s_delete %>
+  </div>
+
+  <div class="buttons-container" style="margin-top: 20px;">
+
+
+
+
+    <% if @obrashenie.persisted? %>
+      <%= form.submit "Обновить данные обращения", class: "button-style update-button", style: "margin-bottom: 5px;" %>
+    <% else %>
+      <%= form.submit "Добавить обращение", class: "button-style create-button", style: "margin-bottom: 5px;" %>
+    <% end %>
+
+
+
+  </div>
+<% end %>
+

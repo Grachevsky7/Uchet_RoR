@@ -1,0 +1,85 @@
+<%= form_with(model: new_zakaz) do |form| %>
+  <% if new_zakaz.errors.any? %>
+    <div style="color: red; margin-bottom: 20px;">
+      <h2><%= pluralize(new_zakaz.errors.count, "ошибка") %> не позволили сохранить заказ:</h2>
+      <ul>
+        <% new_zakaz.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :"ID ПО", style: "display: block" %>
+    <%= form.text_field :po_id %>
+  </div>
+
+  <div>
+    <%= form.label :"ID Клиента", style: "display: block" %>
+    <%= form.text_field :klient_id %>
+  </div>
+
+  <div>
+    <%= form.label :"ID Специалиста", style: "display: block" %>
+    <%= form.text_field :specialist_id %>
+  </div>
+
+  <div>
+    <%= form.label :"Дата заказа", style: "display: block" %>
+    <%= form.date_field :data_zak %>
+  </div>
+
+  <div>
+    <%= form.label :"Статус заказа", style: "display: block" %>
+    <%= form.text_field :stat_zak %>
+  </div>
+
+  <div>
+    <%= form.label :"Дата выполнения заказа", style: "display: block" %>
+    <%= form.date_field :data_vypoln_zak %>
+  </div>
+
+  <div>
+    <%= form.label :"Стоимость в ПО год, ₽", style: "display: block" %>
+    <%= form.text_field :stoimost_v_god %>
+  </div>
+
+  <div>
+    <%= form.label :"Срок аренды, в годах", style: "display: block" %>
+    <%= form.number_field :srok_arendy %>
+  </div>
+
+  <div>
+    <%= form.label :"Стоимость заказа, ₽", style: "display: block" %>
+    <%= form.text_field :stoimost_zak %>
+  </div>
+
+  <div>
+    <%= form.label :"Документ о выполнении заказа", style: "display: block" %>
+    <%= form.text_field :dok_vypoln_zak_path %>
+  </div>
+
+  <div>
+    <%= form.label :"Чек оплаты заказа", style: "display: block" %>
+    <%= form.text_field :chek_opl_zak_path %>
+  </div>
+
+  <div>
+    <%= form.label :status, "Status", style: "display: block" %>
+    <%= form.check_box :status %>
+  </div>
+
+  <div>
+    <%= form.label :s_delete, "S_delete", style: "display: block" %>
+    <%= form.check_box :s_delete %>
+  </div>
+
+  <div class="buttons-container" style="margin-top: 20px;">
+    <% if new_zakaz.persisted? %>
+      <%= form.submit "Обновить данные заказа", class: "button-style update-button", style: "margin-bottom: 5px;" %>
+    <% else %>
+      <%= form.submit "Добавить заказ", class: "button-style create-button", style: "margin-bottom: 5px;" %>
+    <% end %>
+  </div>
+<% end %>

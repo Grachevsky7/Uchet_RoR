@@ -1,0 +1,86 @@
+<h1 class="page-title">Стартовая страница</h1>
+
+<div style="text-align: center; margin-bottom: 20px;">
+  <h2 class="section-title">
+    <% if @current_user_role %>
+      Вы вошли как: <span style="color: #007BFF; font-weight: bold;"><%= @current_user_role %></span>
+    <% else %>
+      Требуется авторизация
+    <% end %>
+  </h2>
+  <% if @message %>
+    <p style="color: #28a745; font-weight: bold;"><%= @message %></p>
+  <% elsif flash[:alert] %>
+    <p style="color: #dc3545; font-weight: bold;"><%= flash[:alert] %></p>
+  <% end %>
+</div>
+
+<% if @current_user_role %>
+  <table class="styled-table">
+    <% if @current_user_role == "Администратор" || @current_user_role == "Менеджер" %>
+      <tr>
+        <td>
+          <h3 class="section-title">Справочники</h3>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <ul class="link-list">
+            <li><%= link_to 'Разработанное программное обеспечение', pos_path %></li>
+            <li><%= link_to 'Клиенты', klients_path %></li>
+            <li><%= link_to 'Специалисты', specialists_path %></li>
+          </ul>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <h3 class="section-title">Документы</h3>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <ul class="link-list">
+            <li><%= link_to 'Заказы', new_zakazs_path %></li>
+            <li><%= link_to 'Обращения по обслуживанию', obrashenies_path %></li>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
+
+    <% if @current_user_role == "Администратор" || @current_user_role == "Менеджер" || @current_user_role == "Руководитель отдела" %>
+      <tr>
+        <td>
+          <h3 class="section-title">Отчеты</h3>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <ul class="link-list">
+            <li><%= link_to 'ПО с максимальным доходом за период времени', po_max_dohod_index_path %></li>
+            <li><%= link_to 'Общая сумма заказов за период времени', obsh_summa_zak_index_path %></li>
+            <li><%= link_to 'Сумма заказов клиента за период времени', kl_obsh_sum_zak_index_path %></li>
+            <li><%= link_to 'Средняя продолжительность выполнения заказов по специалистам', avg_vypoln_zak_index_path %></li>
+            <li><%= link_to 'Средняя продолжительность выполнения обращений по специалистам', avg_vypoln_obr_index_path %></li>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
+
+    <% if @current_user_role == "Администратор" %>
+      <tr>
+        <td>
+          <h3 class="section-title">Резервное копирование</h3>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="buttons-container">
+            <%= link_to 'Создать копию БД', backup_home_page_path, class: "button-style" %>
+            <%= link_to 'Восстановить БД', restore_home_page_path, class: "button-style" %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

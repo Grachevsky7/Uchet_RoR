@@ -1,0 +1,8 @@
+<h1>Редактирование данных клиента</h1>
+
+<%= render "form", klient: @klient %>
+
+<div class="buttons-container" style="margin-top: 10px;">
+  <%= link_to "Показать данные клиента", @klient, class: "button-style", style: "margin-bottom: 5px;" %>
+  <%= link_to "Назад к списку клиентов", klients_path, class: "button-style" %>
+</div>

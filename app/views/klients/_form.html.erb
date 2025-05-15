@@ -1,0 +1,56 @@
+<%= form_with(model: klient) do |form| %>
+  <% if klient.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(klient.errors.count, "error") %> не позволили сохранить клиента:</h2>
+
+      <ul>
+        <% klient.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :"Название компании", style: "display: block" %>
+    <%= form.text_field :name_komp %>
+  </div>
+
+  <div>
+    <%= form.label :"Контактное лицо", style: "display: block" %>
+    <%= form.text_field :kontakt_lico %>
+  </div>
+
+  <div>
+    <%= form.label :"Телефон", style: "display: block" %>
+    <%= form.text_field :telef_kl %>
+  </div>
+
+  <div>
+    <%= form.label :"Email", style: "display: block" %>
+    <%= form.text_field :pochta_kl %>
+  </div>
+
+  <div>
+    <%= form.label :"Адрес", style: "display: block" %>
+    <%= form.text_field :adres_kl %>
+  </div>
+
+  <div>
+    <%= form.label :status, style: "display: block" %>
+    <%= form.check_box :status %>
+  </div>
+
+  <div>
+    <%= form.label :s_delete, "S_delete", style: "display: block" %>
+    <%= form.check_box :s_delete %>
+  </div>
+
+  <div class="buttons-container" style="margin-top: 20px;">
+    <% if @klient.persisted? %>
+      <%= form.submit "Обновить данные клиента", class: "button-style update-button", style: "margin-bottom: 5px;" %>
+    <% else %>
+      <%= form.submit "Добавить клиента", class: "button-style create-button", style: "margin-bottom: 5px;" %>
+    <% end %>
+  </div>
+<% end %>

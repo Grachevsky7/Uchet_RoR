@@ -1,0 +1,157 @@
+/* Простые стили для формы */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input, select, textarea, button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Расстояние между кнопками */
+}
+
+.button-style {
+  display: inline-block;
+  text-align: center;
+  padding: 10px 20px;
+  background-color: #007BFF; /* Цвет кнопок */
+  color: white;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: Arial, sans-serif; /* Укажите шрифт для всех кнопок */
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: red;
+  text-decoration: underline;
+  font-size: inherit;
+  padding: 0;
+  cursor: pointer;
+  display: inline;
+  width: auto;
+  height: auto;
+  line-height: normal;
+}
+
+.delete-button:hover,
+.delete-button:focus,
+.delete-button:active {
+  color: red; /* Остается красным */
+  text-decoration: underline; /* Подчеркивание остается */
+  background: none; /* Фон не меняется */
+  border: none; /* Границы не появляются */
+  outline: none; /* Убирает контур при клике */
+}
+
+.button-style:hover {
+  background-color: #0056b3; /* Цвет кнопки при наведении */
+}
+
+button.button-style {
+  appearance: none; /* Убирает встроенные стили кнопки */
+  -webkit-appearance: none; /* Для поддержки Safari */
+}
+
+/* Основное оформление */
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Заголовок страницы */
+.page-title {
+  text-align: center;
+  font-size: 2em;
+  color: #007BFF;
+  margin-bottom: 20px;
+}
+
+/* Таблица */
+.styled-table {
+  width: 80%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Заголовки разделов */
+.section-title {
+  font-size: 1.5em;
+  color: #555;
+  margin: 20px 0 10px 0;
+  text-align: left;
+}
+
+/* Список ссылок */
+.link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.link-list li {
+  margin: 10px 0;
+}
+
+.link-list a {
+  text-decoration: none;
+  font-size: 1.1em;
+  color: #007BFF;
+  transition: color 0.3s;
+}
+
+.link-list a:hover {
+  color: #0056b3;
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+  .styled-table {
+    width: 100%;
+  }
+
+  .page-title {
+    font-size: 1.8em;
+  }
+}
+

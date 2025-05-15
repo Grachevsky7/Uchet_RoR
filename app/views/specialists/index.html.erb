@@ -1,0 +1,94 @@
+<h1>Список специалистов организации</h1>
+
+<!-- Фильтры -->
+<div class="filters-container" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+  
+<!-- Форма поиска -->
+<%= form_with url: specialists_path, method: :get, local: true do %>
+  <div class="search-container" style="display: flex; gap: 10px; align-items: center;">
+    <input type="text" name="search_fio" placeholder="Поиск по ФИО" value="<%= params[:search_fio] %>" class="search-input" style="width: 1500px;" />
+    <input type="text" name="search_phone" placeholder="Поиск по телефону" value="<%= params[:search_phone] %>" class="search-input" style="width: 270px;" />
+    <input type="text" name="search_email" placeholder="Поиск по email" value="<%= params[:search_email] %>" class="search-input" style="width: 270px;" />
+    <input type="text" name="search_position" placeholder="Поиск по должности" value="<%= params[:search_position] %>" class="search-input" style="width: 270px;" />
+    <input type="text" name="search_status" placeholder="Поиск по статусу" value="<%= params[:search_status] %>" class="search-input" style="width: 270px;" />
+
+    <%= submit_tag "Поиск", class: "button-style" %> <!-- Кнопка с классом button-style -->
+    <%= link_to 'Сбросить', specialists_path, class: 'button-style reset-button' %>
+  </div>
+<% end %>
+
+
+
+
+  <!-- Форма сортировки -->
+  <%= form_with url: specialists_path, method: :get, local: true do %>
+    <div class="sort-container" style="margin-top: 10px; display: flex; gap: 10px; align-items: center;">
+      <label for="sort_by">Сортировать по:</label>
+      <%= select_tag :sort_by, options_for_select([
+        ['ID', 'id'],
+        ['ФИО', 'fio_spec'],
+        ['Должность', 'dlzhnst_spec']
+      ], selected: params[:sort_by]), class: "search-input" %>
+
+      <label for="sort_order">Направление:</label>
+      <%= select_tag :sort_order, options_for_select([
+        ['По возрастанию', 'asc'],
+        ['По убыванию', 'desc']
+      ], selected: params[:sort_order]), class: "search-input" %>
+
+      <%= submit_tag "Применить сортировку", class: "button-style" %>
+    </div>
+  <% end %>
+</div>
+
+<!-- Таблица специалистов -->
+<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse;">
+  <thead>
+    <tr style="background-color: #f2f2f2;">
+      <th>ID</th>
+      <th>ФИО</th>
+      <th>Телефон</th>
+      <th>Email</th>
+      <th>Должность</th>
+      <th>Статус</th>
+      <th>Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @specialists.each do |specialist| %>
+      <tr>
+        <td><%= specialist.id %></td>
+        <td><%= specialist.fio_spec %></td>
+        <td><%= specialist.telef_spec %></td>
+        <td><%= specialist.pochta_spec %></td>
+        <td><%= specialist.dlzhnst_spec %></td>
+        <td><%= specialist.status_spec %></td>
+        <td>
+          <div style="display: inline-flex; align-items: center; gap: 2px;">
+            <%= link_to 'Показать', specialist, style: "margin-right: 5px;" %>
+            <%= link_to 'Редактировать', edit_specialist_path(specialist), style: "margin-right: 5px;" %>
+            <%= button_to "Удалить", specialist, method: :delete, data: { confirm: "Вы уверены?" }, class: "delete-button" %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<!-- Flash сообщение -->
+<% if flash[:notice] %>
+  <p id="flash-message" style="color: green;"><%= flash[:notice] %></p>
+  
+  <script>
+    // Автоматическое скрытие сообщения через 3 секунды
+    setTimeout(function() {
+      document.getElementById('flash-message').style.display = 'none';
+    }, 3000);
+  </script>
+<% end %>
+
+<!-- Кнопки -->
+<div style="margin-bottom: 20px;">
+  <%= link_to 'Добавить специалиста', new_specialist_path, style: "display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;" %>
+  <%= link_to 'Назад', root_path, style: "display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;" %>
+</div>

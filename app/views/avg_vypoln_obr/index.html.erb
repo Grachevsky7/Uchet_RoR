@@ -1,0 +1,29 @@
+<h1>Отчет о средней продолжительности выполнения обращений по специалистам</h1>
+
+<% if @avg_vypolnenie_obrasheniy.present? %>
+  <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse;">
+    <thead>
+      <tr style="background-color: #f2f2f2;">
+        <th>Специалист</th>
+        <th>Средняя продолжительность (дни)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @avg_vypolnenie_obrasheniy.each do |record| %>
+        <tr>
+          <td><%= record.fio_spec %></td>
+          <td><%= record.avg_duration.to_f.round(2) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div style="margin-bottom: 20px;"></div>
+<% else %>
+  <p class="section-title">Нет данных для отображения.</p>
+<% end %>
+
+<div class="buttons-container">
+  <%= link_to 'Экспорт в Excel', export_to_excel_avg_vypoln_obr_path, class: "button-style" %>
+  <%= link_to 'Экспорт в Word', export_to_word_avg_vypoln_obr_path, class: "button-style" %>
+  <%= link_to 'Назад', root_path, class: "button-style" %>
+</div>

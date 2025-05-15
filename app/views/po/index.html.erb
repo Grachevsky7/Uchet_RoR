@@ -1,0 +1,84 @@
+<h1>Самое дорогое и самое дешевое ПО за период времени</h1>
+<%= link_to 'Главная страница', controller: 'home_page' %>
+<br><br>
+
+<%= form_tag(po_index_path, method: "get") do %> <!-- Форма поиска -->
+  <%= label_tag(:start_date, "Дата выпуска с:") %>
+  <%= date_field_tag(:start_date, params[:start_date]) %>
+  
+  <%= label_tag(:end_date, "Дата выпуска по:") %>
+  <%= date_field_tag(:end_date, params[:end_date]) %>
+  
+  <%= submit_tag("Искать") %> 
+  <%= link_to 'Сбросить', po_index_path %> <!-- Сбросить параметры поиска -->
+<% end %>
+
+<% if @most_expensive_po.nil? && @least_expensive_po.nil? %>
+  <p>Нет данных для заданного периода.</p>
+<% else %>
+  <% if @same_po %>
+    <h2>Самое дорогое и самое дешевое ПО совпадают:</h2>
+    <% if @most_expensive_po %>
+      <table border="1">
+        <tr>
+          <th>Код</th>
+          <th>Наименование ПО</th>
+          <th>Версия</th>
+          <th>Дата выпуска</th>
+          <th>Стоимость в год</th>
+        </tr>
+        <tr>
+          <td><%= @most_expensive_po.id %></td>
+          <td><%= @most_expensive_po.name_po %></td>
+          <td><%= @most_expensive_po.vers_po %></td>
+          <td><%= @most_expensive_po.data_vypuska_po %></td>
+          <td><%= @most_expensive_po.stoimost_v_god_po %></td>
+        </tr>
+      </table>
+    <% end %>
+  <% else %>
+    <% if @most_expensive_po %>
+      <h3>Самое дорогое ПО:</h3>
+      <table border="1">
+        <tr>
+          <th>Код</th>
+          <th>Наименование ПО</th>
+          <th>Версия</th>
+          <th>Дата выпуска</th>
+          <th>Стоимость в год</th>
+        </tr>
+        <tr>
+          <td><%= @most_expensive_po.id %></td>
+          <td><%= @most_expensive_po.name_po %></td>
+          <td><%= @most_expensive_po.vers_po %></td>
+          <td><%= @most_expensive_po.data_vypuska_po %></td>
+          <td><%= @most_expensive_po.stoimost_v_god_po %></td>
+        </tr>
+      </table>
+    <% else %>
+      <p>Нет данных для самого дорогого ПО за выбранный период.</p>
+    <% end %>
+    
+    <% if @least_expensive_po %>
+      <h3>Самое дешевое ПО:</h3>
+      <table border="1">
+        <tr>
+          <th>Код</th>
+          <th>Наименование ПО</th>
+          <th>Версия</th>
+          <th>Дата выпуска</th>
+          <th>Стоимость в год</th>
+        </tr>
+        <tr>
+          <td><%= @least_expensive_po.id %></td>
+          <td><%= @least_expensive_po.name_po %></td>
+          <td><%= @least_expensive_po.vers_po %></td>
+          <td><%= @least_expensive_po.data_vypuska_po %></td>
+          <td><%= @least_expensive_po.stoimost_v_god_po %></td>
+        </tr>
+      </table>
+    <% else %>
+      <p>Нет данных для самого дешевого ПО за выбранный период.</p>
+    <% end %>
+  <% end %>
+<% end %>

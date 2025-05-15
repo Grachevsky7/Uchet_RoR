@@ -1,0 +1,56 @@
+<%= form_with(model: specialist) do |form| %>
+  <% if specialist.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(specialist.errors.count, "ошибка") %> не позволили сохранить специалиста:</h2>
+
+      <ul>
+        <% specialist.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :"ФИО", style: "display: block" %>
+    <%= form.text_field :fio_spec %>
+  </div>
+
+  <div>
+    <%= form.label :"Телефон", style: "display: block" %>
+    <%= form.text_field :telef_spec %>
+  </div>
+
+  <div>
+    <%= form.label :"Email", style: "display: block" %>
+    <%= form.text_field :pochta_spec %>
+  </div>
+
+  <div>
+    <%= form.label :"Должность", style: "display: block" %>
+    <%= form.text_field :dlzhnst_spec %>
+  </div>
+
+  <div>
+    <%= form.label :"Статус", style: "display: block" %>
+    <%= form.text_field :status_spec %>
+  </div>
+
+  <div>
+    <%= form.label :status, "Status", style: "display: block" %>
+    <%= form.check_box :status %>
+  </div>
+
+  <div>
+    <%= form.label :s_delete, "S_delete", style: "display: block" %>
+    <%= form.check_box :s_delete %>
+  </div>
+
+  <div class="buttons-container" style="margin-top: 20px;">
+    <% if specialist.persisted? %>
+      <%= form.submit "Обновить данные специалиста", class: "button-style update-button", style: "margin-bottom: 5px;" %>
+    <% else %>
+      <%= form.submit "Добавить специалиста", class: "button-style create-button", style: "margin-bottom: 5px;" %>
+    <% end %>
+  </div>
+<% end %>

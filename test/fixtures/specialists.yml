@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fio_spec: MyString
+  telef_spec: MyString
+  pochta_spec: MyString
+  dlzhnst_spec: MyString
+  status_spec: MyString
+  status: false
+  s_delete: false
+
+two:
+  fio_spec: MyString
+  telef_spec: MyString
+  pochta_spec: MyString
+  dlzhnst_spec: MyString
+  status_spec: MyString
+  status: false
+  s_delete: false

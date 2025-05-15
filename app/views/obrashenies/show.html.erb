@@ -1,0 +1,54 @@
+<p style="color: green"><%= notice %></p>
+
+<% if @obrashenie.present? %>
+  <p>
+    <strong>ID ПО:</strong>
+    <%= @obrashenie.po_id %>
+  </p>
+  <p>
+    <strong>ID Клиента:</strong>
+    <%= @obrashenie.klient_id %>
+  </p>
+ <p>
+    <strong>ID Специалиста:</strong>
+    <%= @obrashenie.specialist_id %>
+  </p>
+  <p>
+    <strong>Дата обращения:</strong>
+    <%= @obrashenie.data_obr %>
+  </p>
+  <p>
+    <strong>Тема обращения:</strong>
+    <%= @obrashenie.tema_obr %>
+  </p>
+
+  <p>
+    <strong>Статус обращения:</strong>
+    <%= @obrashenie.status_obr %>
+  </p>
+ 
+  <p>
+    <strong>Дата выполнения обращения:</strong>
+    <%= @obrashenie.data_vypoln_obr %>
+  </p>
+  <p>
+    <strong>Документ о выполнении обращения:</strong>
+    <%= @obrashenie.dok_vypoln_obr_path %>
+  </p>
+
+    <strong>Status:</strong>
+  <%= @obrashenie.status ? 'true' : 'false' %>
+</p>
+<p>
+  <strong>S_delete:</strong>
+  <%= @obrashenie.s_delete ? 'true' : 'false' %>
+</p>
+<% else %>
+  <p>Обращение не найдено.</p>
+<% end %>
+
+<div class="buttons-container">
+  <%= link_to "Редактировать данные обращения", edit_obrasheny_path(@obrashenie), class: "button-style" %> 
+  <%= button_to "Удалить данные обращения", @obrashenie, method: :delete, data: { confirm: "Вы уверены?" }, class: "button-style" %> 
+  <%= link_to "Назад к списку обращений", obrashenies_path, class: "button-style" %>
+</div>

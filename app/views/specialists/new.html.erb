@@ -1,0 +1,56 @@
+<h1>Добавление нового специалиста</h1>
+
+<%= form_with(model: @specialist, local: true) do |form| %>
+
+  <% if @specialist.errors.any? %>
+    <div style="color: red">
+      <h2>Ошибки при сохранении специалиста:</h2>
+      <ul>
+        <% @specialist.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :fio_spec, "ФИО" %>
+    <%= form.text_field :fio_spec, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :telef_spec, "Телефон" %>
+    <%= form.text_field :telef_spec, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :pochta_spec, "Email" %>
+    <%= form.text_field :pochta_spec, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :dlzhnst_spec, "Должность" %>
+    <%= form.text_field :dlzhnst_spec, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :status_spec, "Статус" %>
+    <%= form.text_field :status_spec, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :status, "Status" %>
+    <%= form.check_box :status, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :s_delete, "S_delete" %>
+    <%= form.check_box :s_delete, class: "form-control" %>
+  </div>
+
+  <div class="buttons-container" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+    <%= form.submit "Добавить специалиста", class: "button-style create-button" %>
+    <%= link_to "Назад к списку специалистов", specialists_path, class: "button-style" %>
+  </div>
+
+<% end %>

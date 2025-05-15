@@ -1,0 +1,110 @@
+<h1>Список заказов в организации</h1>
+
+<!-- Фильтры -->
+<div class="filters-container" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+  
+  <!-- Форма поиска -->
+  <%= form_with url: new_zakazs_path, method: :get, local: true do %>
+    <div class="search-container" style="display: flex; gap: 10px; align-items: center;">
+      <input type="text" name="search_po_id" placeholder="Поиск по ID ПО" value="<%= params[:search_po_id] %>" class="search-input" style="width: 270px;" />
+      <input type="text" name="search_klient_id" placeholder="Поиск по ID клиента" value="<%= params[:search_klient_id] %>" class="search-input" style="width: 270px;" />
+      <input type="text" name="search_specialist_id" placeholder="Поиск по ID специалиста" value="<%= params[:search_specialist_id] %>" class="search-input" style="width: 270px;" />
+      <input type="text" name="search_data_zak" placeholder="Поиск по дате заказа" value="<%= params[:search_data_zak] %>" class="search-input" style="width: 270px;" />
+      <input type="text" name="search_stat_zak" placeholder="Поиск по статусу заказа" value="<%= params[:search_stat_zak] %>" class="search-input" style="width: 270px;" />
+      <input type="text" name="search_data_vypoln_zak" placeholder="Поиск по дате выполнения" value="<%= params[:search_data_vypoln_zak] %>" class="search-input" style="width: 1000px;" />
+
+      <%= submit_tag "Поиск", class: "button-style" %>
+      <%= link_to 'Сбросить', new_zakazs_path, class: 'button-style reset-button' %>
+    </div>
+  <% end %>
+
+  <!-- Форма сортировки -->
+  <%= form_with url: new_zakazs_path, method: :get, local: true do %>
+    <div class="sort-container" style="margin-top: 10px; display: flex; gap: 10px; align-items: center;">
+      <label for="sort_by">Сортировать по:</label>
+      <%= select_tag :sort_by, options_for_select([
+        ['ID', 'id'],
+        ['ID ПО', 'po_id'],
+        ['ID клиента', 'klient_id'],
+        ['ID специалиста', 'specialist_id'],
+        ['Дата заказа', 'data_zak'],
+        ['Статус заказа', 'stat_zak'],
+        ['Дата выполнения заказа', 'data_vypoln_zak'],
+        ['Стоимость ПО в год', 'stoimost_v_god'],
+        ['Срок аренды в годах', 'srok_arendy'],
+        ['Стоимость заказа', 'stoimost_zak']
+      ], selected: params[:sort_by]), class: "search-input" %>
+
+      <label for="sort_order">Направление:</label>
+      <%= select_tag :sort_order, options_for_select([
+        ['По возрастанию', 'asc'],
+        ['По убыванию', 'desc']
+      ], selected: params[:sort_order]), class: "search-input" %>
+
+      <%= submit_tag "Применить сортировку", class: "button-style" %>
+    </div>
+  <% end %>
+</div>
+
+<!-- Таблица заказов -->
+<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse;">
+  <thead>
+    <tr style="background-color: #f2f2f2;">
+      <th>ID</th>
+      <th>ID ПО</th>
+      <th>ID Клиен.</th>
+      <th>ID Спец.</th>
+      <th>Дата заказа</th>
+      <th>Статус заказа</th>
+      <th>Дата выполнения заказа</th>
+      <th>Стоимость ПО в год, ₽</th>
+      <th>Срок аренды, в годах</th>
+      <th>Стоимость заказа, ₽</th>
+      <th>Документ о выполнении заказа</th>
+      <th>Чек оплаты заказа</th>
+      <th>Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @new_zakazs.each do |zakaz| %>
+      <tr>
+        <td><%= zakaz.id %></td>
+        <td><%= zakaz.po_id %></td>
+        <td><%= zakaz.klient_id %></td>
+        <td><%= zakaz.specialist_id %></td>
+        <td><%= zakaz.data_zak %></td>
+        <td><%= zakaz.stat_zak %></td>
+        <td><%= zakaz.data_vypoln_zak %></td>
+        <td><%= zakaz.stoimost_v_god %></td>
+        <td><%= zakaz.srok_arendy %></td>
+        <td><%= zakaz.stoimost_zak %></td>
+        <td><%= zakaz.dok_vypoln_zak_path %></td>
+        <td><%= zakaz.chek_opl_zak_path %></td>
+        <td>
+          <div style="display: inline-flex; align-items: center; gap: 2px;">
+            <%= link_to 'Показать', zakaz, style: "margin-right: 5px;" %>
+            <%= link_to 'Редактировать', edit_new_zakaz_path(zakaz), style: "margin-right: 5px;" %>
+            <%= button_to "Удалить", zakaz, method: :delete, data: { confirm: "Вы уверены?" }, class: "delete-button" %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<!-- Flash сообщение -->
+<% if flash[:notice] %>
+  <p id="flash-message" style="color: green;"><%= flash[:notice] %></p>
+  
+  <script>
+    setTimeout(function() {
+      document.getElementById('flash-message').style.display = 'none';
+    }, 3000);
+  </script>
+<% end %>
+
+<!-- Кнопки -->
+<div style="margin-bottom: 20px;">
+  <%= link_to 'Добавить заказ', new_new_zakaz_path, style: "display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;" %>
+  <%= link_to 'Назад', root_path, style: "display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;" %>
+</div>

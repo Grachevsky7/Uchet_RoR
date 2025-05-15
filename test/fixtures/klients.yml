@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name_komp: MyString
+  kontakt_lico: MyString
+  telef_kl: MyString
+  pochta_kl: MyString
+  adres_kl: MyString
+  status: false
+  s_delete: false
+
+two:
+  name_komp: MyString
+  kontakt_lico: MyString
+  telef_kl: MyString
+  pochta_kl: MyString
+  adres_kl: MyString
+  status: false
+  s_delete: false

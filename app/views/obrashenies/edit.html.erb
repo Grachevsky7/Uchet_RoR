@@ -1,0 +1,10 @@
+<h1>Редактирование данных обращения</h1>
+
+<%= render "form", obrashenie: @obrashenie %>
+
+<div class="buttons-container" style="margin-top: 10px;">
+<%= link_to "Показать данные обращения", @obrashenie, class: "button-style", style: "margin-bottom: 5px;" %>
+  <%= link_to "Назад к списку обращений", obrashenies_path, class: "button-style" %>
+</div>
+
+
