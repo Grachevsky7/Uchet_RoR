@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'obr_spec/index'
 
   
   resources :zak_specs, only: [:index] do

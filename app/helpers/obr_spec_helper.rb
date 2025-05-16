@@ -1,0 +1,2 @@
+module ObrSpecHelper
+end
