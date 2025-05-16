@@ -1,34 +1,82 @@
-<h1>Заказы по специалисту</h1>
+<h1>Отчёт о заказах, выполненных специалистом за период</h1>
 
-  <%= form_with url: zak_specs_path, method: :get do |form| %>
-    <%= form.label :specialist_id, "Специалист" %>
-    <%= form.select :specialist_id, Specialist.all.collect { |s| [s.name, s.id] }, include_blank: true %>
-    <%= form.label :start_date, "Дата начала" %>
-    <%= form.date_field :start_date %>
-    <%= form.label :end_date, "Дата окончания" %>
-    <%= form.date_field :end_date %>
-    <%= form.submit "Сгенерировать отчет" %>
-  <% end %>
+<%= form_with url: zak_specs_path, method: :get, local: true do %>
+  <div class="form-group">
+    <label for="specialist_id">Выберите специалиста:</label>
+    <%= select_tag :specialist_id,
+          options_from_collection_for_select(@specialists, :id, :fio_spec, params[:specialist_id]),
+          include_blank: true %>
+  </div>
+  <div class="form-group">
+    <label for="start_date">Дата начала:</label>
+    <%= date_field_tag :start_date, params[:start_date] %>
+  </div>
+  <div class="form-group">
+    <label for="end_date">Дата окончания:</label>
+    <%= date_field_tag :end_date, params[:end_date] %>
+  </div>
 
-  <% if @orders %>
-    <table class="report-table">
+  <% if @zak_specs.any? %>
+    <table border="1" cellpadding="10" cellspacing="0"
+           style="width: 100%; text-align: left; border-collapse: collapse;">
       <thead>
-        <tr>
-          <th>ID заказа</th>
-          <th>Клиент</th>
-          <th>Дата</th>
+        <tr style="background-color: #f2f2f2;">
+          <th>ПО</th>
+          <th>Версия ПО</th>
+          <th>Наименование клиента</th>
+          <th>Специалист</th>
+          <th>Дата заказа</th>
+          <th>Дата выполнения</th>
+          <th>Стоимость ПО в год, ₽</th>
+          <th>Срок аренды</th>
+          <th>Стоимость заказа, ₽</th>
+          <th>Документ установки</th>
         </tr>
       </thead>
       <tbody>
-        <% @orders.each do |order| %>
+        <% @zak_specs.each do |z| %>
           <tr>
-            <td><%= order.id %></td>
-            <td><%= order.client.name %></td>
-            <td><%= order.completed_at %></td>
+            <td><%= z.po.try(:name_po) || '-' %></td>
+            <td><%= z.po.try(:vers_po) || '-' %></td>
+            <td><%= z.klient.try(:name_komp) || '-' %></td>
+            <td><%= z.specialist.try(:fio_spec) || '-' %></td>
+            <td><%= z.data_zak %></td>
+            <td><%= z.data_vypoln_zak %></td>
+            <td><%= number_to_currency(z.stoimost_v_god, unit: '', separator: ',', delimiter: ' ') %>₽</td>
+            <td><%= z.srok_arendy %></td>
+            <td><%= number_to_currency(z.stoimost_zak, unit: '', separator: ',', delimiter: ' ') %>₽</td>
+            <td>
+              <% if z.dok_vypoln_zak_path.present? %>
+                <%= link_to File.basename(z.dok_vypoln_zak_path),
+                            z.dok_vypoln_zak_path,
+                            target: '_blank' %>
+              <% else %>
+                —
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>
     </table>
-  <% else %>
-    <p>Заказы для выбранного специалиста и диапазона дат не найдены.</p>
+
+    <div style="margin-bottom: 20px;"></div>
+    <p><strong>Общее число выполненных заказов: <%= @zak_specs.size %></strong></p>
+  <% elsif (params[:specialist_id].present? ||
+             params[:start_date].present? ||
+             params[:end_date].present?) %>
+    <p class="section-title">За выбранный период и специалиста заказов нет.</p>
   <% end %>
+
+  <div class="buttons-container">
+    <%= button_tag 'Показать', type: 'submit',
+                  class: "button-style", style: "margin-bottom: 0px;" %>
+    <%= link_to 'Сбросить', zak_specs_path,
+                class: "button-style" %>
+    <% if @zak_specs.any? %>
+      <%= link_to 'Экспорт в Excel', export_to_excel_zak_specs_path(specialist_id: params[:specialist_id], start_date: params[:start_date], end_date: params[:end_date]), class: "button-style" %>
+      <%= link_to 'Экспорт в Word', export_to_word_zak_specs_path(specialist_id: params[:specialist_id], start_date: params[:start_date], end_date: params[:end_date]), class: "button-style" %>
+    <% end %>
+    <%= link_to 'Назад', root_path,
+                class: "button-style" %>
+  </div>
+<% end %>

@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
 
-  get '/zak_specs', to: 'zak_specs#index'
-  resources :zak_specs
+  
+  resources :zak_specs, only: [:index] do
+    collection do
+      get 'export_to_excel'
+      get 'export_to_word'
+    end
+  end
 
   get 'kl_obsh_sum_zak/index'
   get 'obsh_summa_zak/index'
@@ -43,6 +48,7 @@ Rails.application.routes.draw do
 
   get 'avg_vypoln_zak/export_to_excel', to: 'avg_vypoln_zak#export_to_excel', as: :export_to_excel_avg_vypoln_zak
   get 'avg_vypoln_zak/export_to_word', to: 'avg_vypoln_zak#export_to_word', as: :export_to_word_avg_vypoln_zak
+
 
   get "up" => "rails/health#show", as: :rails_health_check
 end
