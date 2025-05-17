@@ -9,6 +9,28 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :obr_spec, only: [:index] do
+    collection do
+      get 'export_to_excel'
+      get 'export_to_word'
+    end
+  end
+
+  resources :new_zakazs do
+    collection do
+      get 'export_to_excel'
+      get 'export_to_word'
+    end
+  end
+
+  resources :obrashenies do
+    collection do
+      get 'export_to_excel'
+      get 'export_to_word'
+    end
+  end
+
+
   get 'kl_obsh_sum_zak/index'
   get 'obsh_summa_zak/index'
   get 'po_max_dohod/index'

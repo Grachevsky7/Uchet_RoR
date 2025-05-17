@@ -1,2 +1,78 @@
-<h1>ObrSpec#index</h1>
-<p>Find me in app/views/obr_spec/index.html.erb</p>
+<h1>Отчёт о обращениях, выполненных специалистом за период</h1>
+
+<%= form_with url: obr_spec_index_path, method: :get, local: true do %>
+  <div class="form-group">
+    <label for="specialist_id">Выберите специалиста:</label>
+    <%= select_tag :specialist_id,
+          options_from_collection_for_select(@specialists, :id, :fio_spec, params[:specialist_id]),
+          include_blank: true %>
+  </div>
+  <div class="form-group">
+    <label for="start_date">Дата начала:</label>
+    <%= date_field_tag :start_date, params[:start_date] %>
+  </div>
+  <div class="form-group">
+    <label for="end_date">Дата окончания:</label>
+    <%= date_field_tag :end_date, params[:end_date] %>
+  </div>
+
+  <% if @obr_specs.any? %>
+    <table border="1" cellpadding="10" cellspacing="0"
+           style="width: 100%; text-align: left; border-collapse: collapse;">
+      <thead>
+        <tr style="background-color: #f2f2f2;">
+          <th>ПО</th>
+          <th>Версия ПО</th>
+          <th>Наименование клиента</th>
+          <th>Специалист</th>
+          <th>Дата обращения</th>
+          <th>Тема обращения</th>
+          <th>Дата выполнения обращения</th>
+          <th>Документ о выполнении обращения</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @obr_specs.each do |o| %>
+          <tr>
+            <td><%= o.po.try(:name_po) || '-' %></td>
+            <td><%= o.po.try(:vers_po) || '-' %></td>
+            <td><%= o.klient.try(:name_komp) || '-' %></td>
+            <td><%= o.specialist.try(:fio_spec) || '-' %></td>
+            <td><%= o.data_obr %></td>
+            <td><%= o.tema_obr || '-' %></td>
+            <td><%= o.data_vypoln_obr || '-' %></td>
+            <td>
+              <% if o.dok_vypoln_obr_path.present? %>
+                <%= link_to File.basename(o.dok_vypoln_obr_path),
+                            o.dok_vypoln_obr_path,
+                            target: '_blank' %>
+              <% else %>
+                —
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div style="margin-bottom: 20px;"></div>
+    <p><strong>Общее число обращений: <%= @obr_specs.size %></strong></p>
+  <% elsif (params[:specialist_id].present? ||
+             params[:start_date].present? ||
+             params[:end_date].present?) %>
+    <p class="section-title">За выбранный период у специалиста нет выполненных обращений.</p>
+  <% end %>
+
+  <div class="buttons-container">
+    <%= button_tag 'Показать', type: 'submit',
+                  class: "button-style", style: "margin-bottom: 0px;" %>
+    <%= link_to 'Сбросить', obr_spec_index_path,
+                class: "button-style" %>
+    <% if @obr_specs.any? %>
+      <%= link_to 'Экспорт в Excel', export_to_excel_obr_spec_index_path(specialist_id: params[:specialist_id], start_date: params[:start_date], end_date: params[:end_date]), class: "button-style" %>
+      <%= link_to 'Экспорт в Word', export_to_word_obr_spec_index_path(specialist_id: params[:specialist_id], start_date: params[:start_date], end_date: params[:end_date]), class: "button-style" %>
+    <% end %>
+    <%= link_to 'Назад', root_path,
+                class: "button-style" %>
+  </div>
+<% end %>
