@@ -7,38 +7,75 @@ class HomePageController < ApplicationController
 
   def backup
     return redirect_to root_path, alert: "Доступ запрещен." unless current_user_role == "Администратор"
-    db_config = Rails.configuration.database_configuration[Rails.env]
-    backup_file = Rails.root.join('db', 'backup.sql')
-    password = db_config['password'] ? "-w #{db_config['password']}" : ""
-    command = "pg_dump -U #{db_config['username']} #{password} -h #{db_config['host'] || 'localhost'} #{db_config['database']} > #{backup_file}"
-    if system(command)
-      redirect_to root_path, notice: "Резервная копия создана успешно"
+
+    cfg = Rails.configuration.database_configuration[Rails.env]
+    timestamp = Time.now.strftime("%Y%m%d_%H%M%S")
+    backup_dir = Rails.root.join('db', 'backups')
+    FileUtils.mkdir_p(backup_dir)
+    backup_path = backup_dir.join("backup_#{timestamp}.sql")
+
+    pg_dump_exe = 'C:\\Program Files\\PostgreSQL\\16\\bin\\pg_dump.exe'
+
+    dump_cmd = [
+      pg_dump_exe,
+      "-h", cfg['host'],
+      "-p", cfg['port'].to_s,
+      "-U", cfg['username'],
+      "-F", "p",
+      "-c", # очищает перед созданием
+      "-f", backup_path.to_s,
+      cfg['database']
+    ]
+
+    env = { 'PGPASSWORD' => cfg['password'].to_s }
+
+    if system(env, *dump_cmd)
+      redirect_to root_path, notice: "Резервная копия успешно создана: #{backup_path.basename}"
     else
-      redirect_to root_path, alert: "Ошибка при создании резервной копии: проверьте наличие pg_dump и настройки database.yml"
+      redirect_to root_path, alert: "Ошибка при создании резервной копии. Проверьте путь к pg_dump и параметры database.yml."
     end
   end
 
   def restore
     return redirect_to root_path, alert: "Доступ запрещен." unless current_user_role == "Администратор"
-    db_config = Rails.configuration.database_configuration[Rails.env]
-    backup_file = Rails.root.join('db', 'backup.sql')
-    password = db_config['password'] ? "-w #{db_config['password']}" : ""
-    if File.exist?(backup_file)
-      drop_success = system("psql -U #{db_config['username']} #{password} -h #{db_config['host'] || 'localhost'} -d #{db_config['database']} -c 'DROP SCHEMA public CASCADE; CREATE SCHEMA public;'")
-      restore_success = system("psql -U #{db_config['username']} #{password} -h #{db_config['host'] || 'localhost'} -d #{db_config['database']} < #{backup_file}")
-      
-      if drop_success && restore_success
-        redirect_to root_path, notice: "Резервная копия восстановлена успешно"
-      else
-        error_message = "Ошибка при восстановлении: "
-        error_message += "очистка базы не удалась" unless drop_success
-        error_message += "; восстановление не удалось" unless restore_success
-        redirect_to root_path, alert: error_message
-      end
+
+    cfg = Rails.configuration.database_configuration[Rails.env]
+
+    unless params[:backup_file].present?
+      return redirect_to root_path, alert: "Пожалуйста, выберите файл резервной копии для восстановления."
+    end
+
+    uploaded_file = params[:backup_file]
+    backup_path = Rails.root.join('tmp', "restore_#{Time.now.strftime('%Y%m%d_%H%M%S')}.sql")
+    File.open(backup_path, 'wb') { |f| f.write uploaded_file.read }
+
+    # Безопасно пересоздаем схему public
+    begin
+      ActiveRecord::Base.connection.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public;")
+    rescue => e
+      return redirect_to root_path, alert: "Ошибка при очистке схемы: #{e.message}"
+    end
+
+    psql_exe = 'C:\\Program Files\\PostgreSQL\\16\\bin\\psql.exe'
+
+    restore_cmd = [
+      psql_exe,
+      "-h", cfg['host'],
+      "-p", cfg['port'].to_s,
+      "-U", cfg['username'],
+      "-d", cfg['database'],
+      "-f", backup_path.to_s
+    ]
+
+    env = { 'PGPASSWORD' => cfg['password'].to_s }
+
+    if system(env, *restore_cmd)
+      redirect_to root_path, notice: "База данных успешно восстановлена из файла: #{uploaded_file.original_filename}"
     else
-      redirect_to root_path, alert: "Файл резервной копии не найден!"
+      redirect_to root_path, alert: "Ошибка восстановления. Убедитесь, что файл корректный и база доступна."
     end
   end
+
 
   private
 

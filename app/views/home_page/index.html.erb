@@ -77,10 +77,30 @@
       </tr>
       <tr>
         <td>
-          <div class="buttons-container">
-            <%= link_to 'Создать копию БД', backup_home_page_path, class: "button-style" %>
-            <%= link_to 'Восстановить БД', restore_home_page_path, class: "button-style" %>
-          </div>
+        <div class="buttons-container" style="display: flex; gap: 1px;">
+          <%= form_with url: db_backup_path, method: :post, local: true do %>
+            <%= submit_tag 'Создать копию БД', class: 'button-style' %>
+          <% end %>
+
+
+          <%= form_with url: db_restore_path, method: :post, multipart: true, local: true do %>
+            <%= submit_tag 'Восстановить БД', class: 'button-style', onclick: "return confirmRestore();" %>
+            <%= file_field_tag :backup_file, accept: '.sql', style: 'display: none;', id: 'backup_file_input' %>
+          <% end %>
+
+          <script>
+            function confirmRestore() {
+              const fileInput = document.getElementById('backup_file_input');
+              fileInput.click();
+              fileInput.onchange = function() {
+                if (fileInput.files.length > 0) {
+                  fileInput.form.submit();
+                }
+              };
+              return false;
+            }
+          </script>
+        </div>
         </td>
       </tr>
     <% end %>

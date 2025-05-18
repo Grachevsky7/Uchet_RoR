@@ -56,6 +56,9 @@ Rails.application.routes.draw do
   resources :klients
   resources :pos
 
+  post 'home/backup',  to: 'home_page#backup',  as: :db_backup
+  post 'home/restore', to: 'home_page#restore', as: :db_restore
+
   # Добавляем маршруты для экспорта отчетов
   get 'po_max_dohod/export_to_excel', to: 'po_max_dohod#export_to_excel', as: :export_to_excel_po_max_dohod
   get 'po_max_dohod/export_to_word', to: 'po_max_dohod#export_to_word', as: :export_to_word_po_max_dohod

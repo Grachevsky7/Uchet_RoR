@@ -328,6 +328,7 @@ COPY public.new_zakazs (id, po_id, klient_id, data_zak, stat_zak, specialist_id,
 12	2	2	2024-12-10	Выполнен	3	2024-12-20	5999000.0	3	17997000.0	/docs/ustanovka_7.pdf	/receipts/chek_7.pdf	f	f	2025-03-03 16:50:06.415187	2025-03-03 16:50:06.415187
 7	6	2	2024-11-30	Выполнен	4	2024-12-10	5999000.0	4	23996000.0	/docs/ustanovka_6.pdf	/receipts/chek_6.pdf	f	f	2024-11-09 18:15:56.446683	2025-03-03 16:51:47.172237
 13	1	2	2025-01-01	Выполнен	3	2025-02-15	2999000.0	4	11996000.0	/docs/ustanovka_8.pdf	/receipts/chek_8.pdf	f	f	2025-03-03 16:59:26.116096	2025-03-03 16:59:26.116096
+14	2	2	1000-10-10	Не выполнен	2	\N	1.0	1	1.0	1	1	f	f	2025-05-18 19:35:38.042208	2025-05-18 19:35:38.042208
 \.
 
 
@@ -398,7 +399,7 @@ SELECT pg_catalog.setval('public.klients_id_seq', 8, true);
 -- Name: new_zakazs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.new_zakazs_id_seq', 13, true);
+SELECT pg_catalog.setval('public.new_zakazs_id_seq', 14, true);
 
 
 --

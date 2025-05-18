@@ -16,6 +16,59 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+ALTER TABLE ONLY public.new_zakazs DROP CONSTRAINT fk_rails_a9cc913f8c;
+ALTER TABLE ONLY public.new_zakazs DROP CONSTRAINT fk_rails_9afc164ccd;
+ALTER TABLE ONLY public.obrashenies DROP CONSTRAINT fk_rails_7be4004b6d;
+ALTER TABLE ONLY public.new_zakazs DROP CONSTRAINT fk_rails_72741da5f8;
+ALTER TABLE ONLY public.obrashenies DROP CONSTRAINT fk_rails_46cd22c577;
+ALTER TABLE ONLY public.obrashenies DROP CONSTRAINT fk_rails_23ad51024f;
+DROP INDEX public.index_obrashenies_on_specialist_id;
+DROP INDEX public.index_obrashenies_on_po_id;
+DROP INDEX public.index_obrashenies_on_klient_id;
+DROP INDEX public.index_new_zakazs_on_specialist_id;
+DROP INDEX public.index_new_zakazs_on_po_id;
+DROP INDEX public.index_new_zakazs_on_klient_id;
+ALTER TABLE ONLY public.specialists DROP CONSTRAINT specialists_pkey;
+ALTER TABLE ONLY public.schema_migrations DROP CONSTRAINT schema_migrations_pkey;
+ALTER TABLE ONLY public.pos DROP CONSTRAINT pos_pkey;
+ALTER TABLE ONLY public.obrashenies DROP CONSTRAINT obrashenies_pkey;
+ALTER TABLE ONLY public.new_zakazs DROP CONSTRAINT new_zakazs_pkey;
+ALTER TABLE ONLY public.klients DROP CONSTRAINT klients_pkey;
+ALTER TABLE ONLY public.ar_internal_metadata DROP CONSTRAINT ar_internal_metadata_pkey;
+ALTER TABLE public.specialists ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.pos ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.obrashenies ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.new_zakazs ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.klients ALTER COLUMN id DROP DEFAULT;
+DROP SEQUENCE public.specialists_id_seq;
+DROP TABLE public.specialists;
+DROP TABLE public.schema_migrations;
+DROP SEQUENCE public.pos_id_seq;
+DROP TABLE public.pos;
+DROP SEQUENCE public.obrashenies_id_seq;
+DROP TABLE public.obrashenies;
+DROP SEQUENCE public.new_zakazs_id_seq;
+DROP TABLE public.new_zakazs;
+DROP SEQUENCE public.klients_id_seq;
+DROP TABLE public.klients;
+DROP TABLE public.ar_internal_metadata;
+-- *not* dropping schema, since initdb creates it
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+-- *not* creating schema, since initdb creates it
+
+
+ALTER SCHEMA public OWNER TO postgres;
+
+--
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA public IS '';
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -566,6 +619,13 @@ ALTER TABLE ONLY public.new_zakazs
 
 ALTER TABLE ONLY public.new_zakazs
     ADD CONSTRAINT fk_rails_a9cc913f8c FOREIGN KEY (po_id) REFERENCES public.pos(id);
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 
 
 --
