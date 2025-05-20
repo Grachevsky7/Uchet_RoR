@@ -1,30 +1,35 @@
 <h1 class="page-title">Стартовая страница</h1>
 
-<div style="text-align: center; margin-bottom: 20px;">
-  <h2 class="section-title">
-    <% if @current_user_role %>
-      Вы вошли как: <span style="color: #007BFF; font-weight: bold;"><%= @current_user_role %></span>
-    <% else %>
-      Требуется авторизация
-    <% end %>
-  </h2>
-  <% if @message %>
-    <p style="color: #28a745; font-weight: bold;"><%= @message %></p>
-  <% elsif flash[:alert] %>
-    <p style="color: #dc3545; font-weight: bold;"><%= flash[:alert] %></p>
-  <% end %>
-</div>
+<% if user_signed_in? %>
 
-<% if @current_user_role %>
+  <!-- Flash-сообщения -->
+  <% if flash[:notice] %>
+    <p class="flash-notice"><%= flash[:notice] %></p>
+  <% end %>
+  <% if flash[:alert] %>
+    <p class="flash-alert"><%= flash[:alert] %></p>
+  <% end %>
+
+  <!-- Панель текущего пользователя -->
+  <div class="user-panel-global">
+    <span><%= current_user.email %></span>
+    <span>|</span>
+    <span><%= current_user.role_name %></span>
+    <span>|</span>
+    <%= link_to 'Выйти',
+                destroy_user_session_path,
+                method: :delete,
+                data: { confirm: 'Вы действительно хотите выйти?' },
+                class: 'logout-link-inline' %>
+  </div>
+
   <table class="styled-table">
-    <% if @current_user_role == "Администратор" || @current_user_role == "Менеджер" %>
+
+    <!-- 1. Справочники (admin + manager) -->
+    <% if current_user.admin? || current_user.client_manager? %>
       <tr>
         <td>
           <h3 class="section-title">Справочники</h3>
-        </td>
-      </tr>
-      <tr>
-        <td>
           <ul class="link-list">
             <li><%= link_to 'Разработанное программное обеспечение', pos_path %></li>
             <li><%= link_to 'Клиенты', klients_path %></li>
@@ -32,14 +37,13 @@
           </ul>
         </td>
       </tr>
+    <% end %>
 
+    <!-- 2. Документы (admin + manager + head) -->
+    <% if current_user.admin? || current_user.client_manager? || current_user.department_head? %>
       <tr>
         <td>
           <h3 class="section-title">Документы</h3>
-        </td>
-      </tr>
-      <tr>
-        <td>
           <ul class="link-list">
             <li><%= link_to 'Заказы', new_zakazs_path %></li>
             <li><%= link_to 'Обращения по обслуживанию', obrashenies_path %></li>
@@ -48,14 +52,11 @@
       </tr>
     <% end %>
 
-    <% if @current_user_role == "Администратор" || @current_user_role == "Менеджер" || @current_user_role == "Руководитель отдела" %>
+    <!-- 3. Отчёты (admin + manager + head) -->
+    <% if current_user.admin? || current_user.client_manager? || current_user.department_head? %>
       <tr>
         <td>
-          <h3 class="section-title">Отчеты</h3>
-        </td>
-      </tr>
-      <tr>
-        <td>
+          <h3 class="section-title">Отчёты</h3>
           <ul class="link-list">
             <li><%= link_to 'ПО с максимальным доходом за период времени', po_max_dohod_index_path %></li>
             <li><%= link_to 'Общая сумма заказов за период времени', obsh_summa_zak_index_path %></li>
@@ -69,40 +70,41 @@
       </tr>
     <% end %>
 
-    <% if @current_user_role == "Администратор" %>
+    <!-- 4. Резервное копирование (только admin) -->
+    <% if current_user.admin? %>
       <tr>
         <td>
           <h3 class="section-title">Резервное копирование</h3>
-        </td>
-      </tr>
-      <tr>
-        <td>
-        <div class="buttons-container" style="display: flex; gap: 1px;">
-          <%= form_with url: db_backup_path, method: :post, local: true do %>
-            <%= submit_tag 'Создать копию БД', class: 'button-style' %>
-          <% end %>
+          <div class="buttons-container"  style="display: flex; gap: 0px;">
+            <!-- Создать копию БД -->
+            <%= form_with url: db_backup_path, method: :post, local: true do %>
+              <%= submit_tag 'Создать копию БД', class: 'button-style' %>
+            <% end %>
 
-
-          <%= form_with url: db_restore_path, method: :post, multipart: true, local: true do %>
-            <%= submit_tag 'Восстановить БД', class: 'button-style', onclick: "return confirmRestore();" %>
-            <%= file_field_tag :backup_file, accept: '.sql', style: 'display: none;', id: 'backup_file_input' %>
-          <% end %>
-
-          <script>
-            function confirmRestore() {
-              const fileInput = document.getElementById('backup_file_input');
-              fileInput.click();
-              fileInput.onchange = function() {
-                if (fileInput.files.length > 0) {
-                  fileInput.form.submit();
-                }
-              };
-              return false;
-            }
-          </script>
-        </div>
+            <!-- Восстановить БД -->
+            <%= form_with url: db_restore_path, method: :post, multipart: true, local: true do %>
+              <%= file_field_tag :backup_file, accept: '.sql', style: 'display: none;', id: 'backup_file_input' %>
+              <%= submit_tag 'Восстановить БД', class: 'button-style', onclick: "return confirmRestore();" %>
+            <% end %>
+          </div>
         </td>
       </tr>
     <% end %>
+
   </table>
+
+  <script>
+    function confirmRestore() {
+      const input = document.getElementById('backup_file_input');
+      input.click();
+      input.onchange = () => input.files.length && input.form.submit();
+      return false;
+    }
+  </script>
+
+<% else %>
+  <div class="unauth-container">
+    <h2 class="section-title">Требуется авторизация</h2>
+    <p><%= link_to 'Войти', new_user_session_path %></p>
+  </div>
 <% end %>

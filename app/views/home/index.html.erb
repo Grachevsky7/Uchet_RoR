@@ -1,0 +1,7 @@
+<% if user_signed_in? %>
+  <h1>Добро пожаловать, <%= current_user.email %>!</h1>
+  <p>Ваша роль: <%= current_user.role.humanize %></p>
+<% else %>
+  <h1>Добро пожаловать!</h1>
+  <p>Пожалуйста, <a href="<%= new_user_session_path %>">войдите</a> или <a href="<%= new_user_registration_path %>">зарегистрируйтесь</a>.</p>
+<% end %>

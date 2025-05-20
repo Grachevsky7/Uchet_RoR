@@ -1,6 +1,19 @@
 Rails.application.routes.draw do
-  get 'obr_spec/index'
 
+  devise_for :users
+
+  # Оборачиваем корневые маршруты в devise_scope
+  devise_scope :user do
+    authenticated :user do
+      root to: 'home_page#index', as: :authenticated_root
+    end
+
+    unauthenticated do
+      root to: 'devise/sessions#new', as: :unauthenticated_root
+    end
+  end
+
+  root to: 'home_page#index'
   
   resources :zak_specs, only: [:index] do
     collection do
@@ -39,7 +52,7 @@ Rails.application.routes.draw do
 
   resources :new_zakazs
 
-  root 'home_page#index'
+  #root 'home_page#index'
   get 'home_page/backup', to: 'home_page#backup', as: :backup_home_page
   get 'home_page/restore', to: 'home_page#restore', as: :restore_home_page
   get 'home_page/index'

@@ -1,0 +1,27 @@
+<h1 class="page-title">Вход в систему</h1>
+
+<%# flash-уведомления %>
+<% if flash[:alert] %>
+  <p class="flash-alert"><%= flash[:alert] %></p>
+<% end %>
+<% if flash[:notice] %>
+  <p class="flash-notice"><%= flash[:notice] %></p>
+<% end %>
+
+<div class="login-form-container">
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'styled-form' }) do |f| %>
+    <div class="form-row">
+      <%= f.label :email, 'Email' %><br />
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'input-field' %>
+    </div>
+
+    <div class="form-row">
+      <%= f.label :password, 'Пароль' %><br />
+      <%= f.password_field :password, autocomplete: "current-password", class: 'input-field' %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit 'Войти', class: 'button-style' %>
+    </div>
+  <% end %>
+</div>
